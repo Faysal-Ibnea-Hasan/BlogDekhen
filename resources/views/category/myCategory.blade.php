@@ -3,11 +3,11 @@
     @include('Components.alert')
     <span class="relative flex justify-center">
         <div
-            class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75">
-        </div>
+          class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"
+        ></div>
 
-        <span class="relative z-10 bg-white px-6 text-2xl">Tags</span>
-    </span>
+        <span class="relative z-10 bg-white px-6 text-2xl">Categories</span>
+      </span>
     <div class="overflow-x-auto">
         <table class="table">
             <!-- head -->
@@ -20,29 +20,29 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tags as $key => $tag)
+                @foreach ($categories as $key => $category)
                     <!-- row 1 -->
                     <tr>
                         <th>{{ $key + 1 }}</th>
                         <td>
-                            <div class="badge badge-ghost badge-lg">{{ $tag->name }}</div>
+                            <div class="badge badge-ghost badge-lg">{{ $category->name }}</div>
                         </td>
-                        @if ($tag->status == \App\Enum\PostStatus::Active)
+                        @if ($category->status == \App\Enum\PostStatus::Active)
                             <td>
-                                <button><a data-url="{{ route('tag.status.change') }}" data-status="{{ 0 }}"
-                                        data-id="{{ $tag->id }}"
+                                <button><a data-url="{{ route('category.status.change') }}" data-status="{{ 0 }}"
+                                        data-id="{{ $category->id }}"
                                         class="status badge badge-success badge-lg">Active</a></button>
                             </td>
-                        @elseif ($tag->status == \App\Enum\PostStatus::InActive)
+                        @elseif ($category->status == \App\Enum\PostStatus::InActive)
                             <td>
-                                <button><a data-url="{{ route('tag.status.change') }}" data-status="{{ 1 }}"
-                                        data-id="{{ $tag->id }}"
+                                <button><a data-url="{{ route('category.status.change') }}" data-status="{{ 1 }}"
+                                        data-id="{{ $category->id }}"
                                         class="status badge badge-error badge-lg">In-active</a></button>
                             </td>
                         @endif
                         <td class="px-4 py-4 text-sm whitespace-nowrap">
                             <div class="flex items-center gap-x-6">
-                                <a data-url="{{ route('tag.delete') }}" data-id="{{ $tag->id }}"
+                                <a data-url="{{ route('category.delete') }}" data-id="{{ $category->id }}"
                                     class="delete text-gray-300 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-500 hover:text-red-500 focus:outline-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

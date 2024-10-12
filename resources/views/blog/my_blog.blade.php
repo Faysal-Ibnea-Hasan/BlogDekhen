@@ -11,8 +11,7 @@
                 <button id="dropdownButton"
                     class="inline-flex justify-center px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
                     Create
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20"
-                        fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z"
                             clip-rule="evenodd" />
@@ -25,12 +24,14 @@
                     <div class="py-1">
                         <a href="{{ route('blog.create') }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Create Blog</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Create
+                        <a onclick="my_modal_5_category.showModal()" href="#"
+                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Create
                             Category</a>
-                        <a onclick="my_modal_5.showModal()" href="#"
+                        <a onclick="my_modal_5_tag.showModal()" href="#"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Create Tag</a>
                     </div>
                 </div>
+                @include('Modal.create_category')
                 @include('Modal.create_tag')
             </div>
         </div>
@@ -290,7 +291,47 @@
                         $("#svg").after('<span>' + response.message + '</span>');
                     }
                     setTimeout(() => {
-                        $("#success-alert").removeClass('animate-slideIn').addClass('animate-fadeOut');
+                        $("#success-alert").removeClass('animate-slideIn').addClass(
+                            'animate-fadeOut');
+                    }, 2000);
+                },
+            });
+
+        });
+        $("#category").on('click', function(e) {
+            e.preventDefault();
+            var name = $('#name').val();
+            var user_id = $('#user_id').val();
+            //console.log(name);
+            $.ajax({
+                url: "{{ route('category.create') }}",
+                type: 'POST',
+                data: {
+                    user_id: user_id,
+                    name: name,
+                    _token: '{{ csrf_token() }}', // Don't forget the CSRF token
+                },
+                error: function(xhr) {
+                    // Clear any previous errors
+                    $(".error").remove();
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON
+                            .errors; // Laravel returns validation errors under 'errors'
+                        // Loop through the errors and display them under the corresponding input
+                        if (errors.name) {
+                            $('#name').after('<p class="error text-red-500 text-xs mt-1">' + errors
+                                .name[0] + '</p>');
+                        }
+                    }
+                },
+                success: function(response) {
+                    if (response.status == true) {
+                        $("#success-alert").removeClass('hidden');
+                        $("#svg").after('<span>' + response.message + '</span>');
+                    }
+                    setTimeout(() => {
+                        $("#success-alert").removeClass('animate-slideIn').addClass(
+                            'animate-fadeOut');
                     }, 2000);
                 },
             });

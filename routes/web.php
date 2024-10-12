@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Blog\BlogController;
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Tag\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,10 @@ Route::controller(TagController::class)->middleware('auth')->prefix('tag')->grou
     Route::get('/tags', 'myTags')->name('tag.myTags');
     Route::post('/status', 'changeStatus')->name('tag.status.change');
     Route::delete('/delete', 'delete')->name('tag.delete');
+});
+Route::controller(CategoryController::class)->middleware('auth')->prefix('category')->group(function () {
+    Route::post('/store', 'store')->name('category.create');
+    Route::get('/categories', 'myCategories')->name('category.myCategories');
+    Route::post('/status', 'changeStatus')->name('category.status.change');
+    Route::delete('/delete', 'delete')->name('category.delete');
 });

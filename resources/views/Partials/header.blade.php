@@ -22,18 +22,22 @@
             <div class="relative">
                 <button type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                     aria-expanded="false">
-                   <a href="{{route('blog')}}">Blog</a>
+                    <a href="{{ route('blog') }}">Blog</a>
                 </button>
             </div>
 
             @if (Auth::user())
-              <details class="dropdown">
-                <summary class="text-sm font-semibold leading-6 text-gray-900">My Blogs</summary>
-                <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                  <li><a href="{{ route('myBlog') }}">My blogs</a></li>
-                  <li><a href="{{ route('tag.myTags') }}">My Tags</a></li>
-                </ul>
-              </details>
+                <button>
+                    <details class="dropdown">
+                        <summary class="text-sm font-semibold leading-6 text-gray-900">My Blogs</summary>
+                        <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                            <li><a href="{{ route('myBlog') }}">My blogs</a></li>
+                            <li><a href="{{route('category.myCategories')}}">My Categories</a></li>
+                            <li><a href="{{ route('tag.myTags') }}">My Tags</a></li>
+                        </ul>
+                    </details>
+                </button>
+
 
                 <a href="#" class="text-sm font-semibold leading-6 text-gray-900">About</a>
 
