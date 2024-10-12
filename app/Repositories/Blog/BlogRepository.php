@@ -24,4 +24,14 @@ class BlogRepository implements BlogRepositoryInterface
         }
         return true;
     }
+    public function change_status($id, $status){
+        $blogs = Post::findOrFail($id);
+        if($blogs){
+            $blogs->status = $status;
+            $blogs->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

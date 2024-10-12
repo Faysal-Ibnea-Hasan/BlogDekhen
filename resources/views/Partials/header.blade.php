@@ -27,7 +27,14 @@
             </div>
 
             @if (Auth::user())
-                <a href="{{ route('myBlog') }}" class="text-sm font-semibold leading-6 text-gray-900">My blogs</a>
+              <details class="dropdown">
+                <summary class="text-sm font-semibold leading-6 text-gray-900">My Blogs</summary>
+                <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                  <li><a href="{{ route('myBlog') }}">My blogs</a></li>
+                  <li><a href="{{ route('tag.myTags') }}">My Tags</a></li>
+                </ul>
+              </details>
+
                 <a href="#" class="text-sm font-semibold leading-6 text-gray-900">About</a>
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Blog;
 
+use App\Enum\PostStatus;
 use App\Http\Controllers\Controller;
 use App\Repositories\Blog\BlogRepositoryInterface;
 use Illuminate\Http\Request;
@@ -17,8 +18,8 @@ class BlogController extends Controller
     }
     public function showBlog()
     {
-        $posts = Post::with('users')->get();
-        return view('blog.blog',[
+        $posts = Post::where('status', PostStatus::Active)->with('users')->get();
+        return view('blog.blog', [
             'posts' => $posts
         ]);
     }
@@ -68,5 +69,13 @@ class BlogController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Failed to delete the item.'], 500);
         }
+    }
+    public function changeStatus(Request $request){
+        $id = $request->id;
+        $status = $request->status;
+        $this->blogRepository->change_status($id,$status);
+        return response()->json([
+            'status' => true,
+        ]);
     }
 }
