@@ -6,4 +6,8 @@ interface BlogRepositoryInterface{
     public function store_blog($blog);
     public function update_blog($blog);
     public function change_status($id, $status);
+    public function fetch_user_tags();
+    public function fetch_user_categories();
+    public function store_post_tags($post_id, $tag_id);
+    public function store_category_post($post_id, $category_id);
 }

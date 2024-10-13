@@ -139,19 +139,26 @@
                                         </td>
                                         <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                             {{ \Illuminate\Support\Str::limit($item->content, 45) }}</td>
-                                        <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                            {{ $item->users->email }}</td>
+
+                                            <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                                <div class="flex items-center gap-x-2">
+                                                    @foreach ($item->categories as $key => $category)
+                                                        <p
+                                                            class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
+                                                            {{ $category->name }}
+                                                        </p>
+                                                    @endforeach
+                                                </div>
+                                            </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">
                                             <div class="flex items-center gap-x-2">
-                                                <p
-                                                    class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
-                                                    Design</p>
-                                                <p
-                                                    class="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100/60">
-                                                    Product</p>
-                                                <p
-                                                    class="px-3 py-1 text-xs text-pink-500 rounded-full dark:bg-gray-800 bg-pink-100/60">
-                                                    Marketing</p>
+                                                @foreach ($item->tags as $key => $tag)
+                                                    <p
+                                                        class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
+
+                                                        {{ $tag->name }}
+                                                    </p>
+                                                @endforeach
                                             </div>
                                         </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">

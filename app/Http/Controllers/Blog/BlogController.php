@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Blog;
 
 use App\Enum\PostStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BlogRequest;
+use App\Models\Category;
+use App\Models\Tag;
 use App\Repositories\Blog\BlogRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,19 +31,28 @@ class BlogController extends Controller
         $userId = Auth::user()->id;
         $myBlog = $this->blogRepository->myBlog($userId);
         //dd($myBlog);
-        $myBlogCount = $myBlog->count();
         return view('blog.my_blog', [
             'myBlog' => $myBlog
         ]);
     }
     public function create_blog()
     {
-        return view('Components.create_blog');
+        $tags = $this->blogRepository->fetch_user_tags();
+        $categories = $this->blogRepository->fetch_user_categories();
+        return view('Components.create_blog', [
+            'tags' => $tags,
+            'categories' => $categories
+        ]);
     }
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
         $blog = $request->all();
-        $this->blogRepository->store_blog($blog);
+        $postId = $this->blogRepository->store_blog($blog);
+        $post_id = $postId;
+        $tag_id = $request->tag_id;
+        $category_id = $request->category_id;
+        $this->blogRepository->store_post_tags($post_id, $tag_id);
+        $this->blogRepository->store_category_post($post_id, $category_id);
         return redirect()->route('myBlog');
     }
     public function edit(Request $request)
@@ -70,10 +82,11 @@ class BlogController extends Controller
             return response()->json(['success' => false, 'message' => 'Failed to delete the item.'], 500);
         }
     }
-    public function changeStatus(Request $request){
+    public function changeStatus(Request $request)
+    {
         $id = $request->id;
         $status = $request->status;
-        $this->blogRepository->change_status($id,$status);
+        $this->blogRepository->change_status($id, $status);
         return response()->json([
             'status' => true,
         ]);

@@ -21,7 +21,14 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
