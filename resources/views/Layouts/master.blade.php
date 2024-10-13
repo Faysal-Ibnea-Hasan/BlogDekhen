@@ -7,7 +7,6 @@
     @vite('resources/css/app.css')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>@yield('title', 'BlogDekhen')</title>
-
 </head>
 
 <body class="flex flex-col min-h-screen">

@@ -15,6 +15,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(BlogController::class)->prefix('blog')->group(function () {
     Route::get('/', 'showBlog')->name('blog');
+    Route::get('/details/{id}', 'details')->name('blog.details');
     Route::middleware(['auth'])->group(function () {
         Route::get('/myBlog', 'myBlog')->name('myBlog');
         Route::get('/create', 'create_blog')->name('blog.create');

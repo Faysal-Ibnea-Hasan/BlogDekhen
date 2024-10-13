@@ -1,41 +1,44 @@
 @extends('Layouts.master')
 @section('content')
-    <div class="bg-white py-24 sm:py-32">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="bg-white">
+        <div class="mx-auto max-w-7xl">
             <div
-                class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                 @foreach ($posts as $key => $post)
-                    <article class="flex max-w-xl flex-col items-start justify-between border-t border-gray-200 pt-10">
-                        <div class="flex items-center gap-x-4 text-xs">
-                            <time datetime="2020-03-16" class="text-gray-500">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</time>
-                            <a href="#"
-                                class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
-                        </div>
-                        <div class="group relative">
-                            <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    {{$post->title}}
-                                </a>
-                            </h3>
-                            <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{{$post->content}}</p>
-                        </div>
-                        <div class="relative mt-8 flex items-center gap-x-4">
-                            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt="" class="h-10 w-10 rounded-full bg-gray-50">
-                            <div class="text-sm leading-6">
-                                <p class="font-semibold text-gray-900">
-                                    <a href="#">
-                                        <span class="absolute inset-0"></span>
-                                        {{$post->users->name}}
-                                    </a>
+                    <a href="{{ route('blog.details', $post->id) }}">
+                        <article class="h-full overflow-hidden rounded-lg shadow transition hover:shadow-lg">
+                            <img alt=""
+                                src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                                class="h-56 w-full object-cover" />
+                            <div class="bg-white p-4 sm:p-6">
+                                <div class="flex items-center gap-x-4 text-xs">
+                                    <time datetime="2020-03-16"
+                                        class="text-gray-500">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</time>
+                                    @foreach ($post->categories as $key => $category)
+                                        <div
+                                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                                            {{ $category->name }}</div>
+                                    @endforeach
+                                </div>
+                                <div>
+                                    <h3 class="mt-0.5 text-lg text-gray-900">
+                                        {{ \Illuminate\Support\Str::limit($post->title, 40) }}</h3>
+                                </div>
+                                <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                                    {!! \Illuminate\Support\Str::limit($post->content, 100) !!}
                                 </p>
-                                {{-- <p class="text-gray-600">Co-Founder / CTO</p> --}}
+                                <div class="text-sm leading-6">
+                                    <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-300">
+                                        {{ $post->users->name }} | Author
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    </a>
                 @endforeach
             </div>
         </div>
+    </div>
+    </div>
     </div>
 @endsection

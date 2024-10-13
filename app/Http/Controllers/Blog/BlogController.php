@@ -21,9 +21,16 @@ class BlogController extends Controller
     }
     public function showBlog()
     {
-        $posts = Post::where('status', PostStatus::Active)->with('users')->get();
+        $posts = $this->blogRepository->all_blogs();
         return view('blog.blog', [
             'posts' => $posts
+        ]);
+    }
+    public function details($id)
+    {
+        $blog = $this->blogRepository->blog_details($id);
+        return view('blog.blog_details',[
+            'blog' => $blog
         ]);
     }
     public function myBlog()
@@ -84,7 +91,6 @@ class BlogController extends Controller
         $post = Post::findOrFail($request->id);
         if ($post) {
             $post->delete();
-
             return response()->json([
                 'status' => true,
                 'message' => 'Post deleted successfully'

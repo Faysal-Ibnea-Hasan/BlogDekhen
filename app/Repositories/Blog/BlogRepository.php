@@ -12,9 +12,28 @@ use Auth;
 
 class BlogRepository implements BlogRepositoryInterface
 {
+    public function all_blogs()
+    {
+        $post = Post::where('status', PostStatus::Active)
+            ->with('users', 'categories', 'tags')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        return $post;
+    }
+    public function blog_details($id)
+    {
+        $post = Post::where('id', $id)
+            ->where('status', PostStatus::Active)
+            ->with('users', 'categories', 'tags')
+            ->first();
+        return $post;
+    }
     public function myBlog($id)
     {
-        $myBlog = Post::where('user_id', $id)->with('users', 'categories', 'tags')->orderBy('created_at','DESC')->cursorPaginate(5);
+        $myBlog = Post::where('user_id', $id)
+            ->with('users', 'categories', 'tags')
+            ->orderBy('created_at', 'DESC')
+            ->cursorPaginate(5);
         return $myBlog;
     }
     public function store_blog($blog)
@@ -44,12 +63,16 @@ class BlogRepository implements BlogRepositoryInterface
     }
     public function fetch_user_tags()
     {
-        $tags = Tag::where('user_id', Auth::user()->id)->where('status', PostStatus::Active)->get();
+        $tags = Tag::where('user_id', Auth::user()->id)
+            ->where('status', PostStatus::Active)
+            ->get();
         return $tags;
     }
     public function fetch_user_categories()
     {
-        $categories = Category::where('user_id', Auth::user()->id)->where('status', PostStatus::Active)->get();
+        $categories = Category::where('user_id', Auth::user()->id)
+            ->where('status', PostStatus::Active)
+            ->get();
         return $categories;
     }
     public function store_post_tags($post_id, $tag_id)
@@ -78,7 +101,7 @@ class BlogRepository implements BlogRepositoryInterface
     }
     public function update_category_post($post_id, $category_id)
     {
-        $post = CategoryPost::where('post_id',$post_id)->first();
+        $post = CategoryPost::where('post_id', $post_id)->first();
         if ($post) {
             $post->update(['category_id' => $category_id]);
         }

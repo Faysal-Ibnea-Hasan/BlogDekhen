@@ -64,9 +64,9 @@
                         @if ($errors->has('content'))
                             <p class="text-error">{{ $errors->first('content') }}</p>
                         @endif
-                        <label for="content" class="block text-sm font-medium text-gray-700"> Content </label>
-                        <textarea id="content" name="content" class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm"
-                            rows="20" placeholder="Write your content here">{{ $post->content }}</textarea>
+                        <label for="editor" class="block text-sm font-medium text-gray-700"> Content </label>
+                        <textarea id="editor" name="content" class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm"
+                            rows="20" placeholder="Write your content here">{!! $post->content !!}</textarea>
                     </div>
                 </div>
                 <div class="mt-2 w-[100%] bg-transparent flex items-center">
@@ -77,4 +77,13 @@
         </div>
     </div>
     <!-- The component code ends -->
+@endsection
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<script>
+ ClassicEditor.create(document.querySelector('#editor'))
+ .catch(error => {
+ console.error(error);
+ });
+</script>
 @endsection
