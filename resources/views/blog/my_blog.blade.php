@@ -43,10 +43,12 @@
                             <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr>
                                     <th scope="col"
+                                    class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    SN
+                                    </th>
+                                    <th scope="col"
                                         class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         <div class="flex items-center gap-x-3">
-                                            <input type="checkbox"
-                                                class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700">
                                             <span>Title</span>
                                         </div>
                                     </th>
@@ -99,21 +101,17 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                @foreach ($myBlog as $item)
+                                @foreach ($myBlog as $key => $item)
                                     <tr>
+                                        <td class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            {{$key+1}}
+                                        </td>
                                         <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                             <div class="inline-flex items-center gap-x-3">
-                                                <input type="checkbox"
-                                                    class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700">
-
                                                 <div class="flex items-center gap-x-2">
-                                                    <img class="object-cover w-10 h-10 rounded-full"
-                                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                                                        alt="">
                                                     <div>
                                                         <h2 class="font-medium text-gray-800 dark:text-white ">
                                                             {{ \Illuminate\Support\Str::limit($item->title, 25) }}</h2>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -140,16 +138,16 @@
                                         <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                             {{ \Illuminate\Support\Str::limit($item->content, 45) }}</td>
 
-                                            <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                <div class="flex items-center gap-x-2">
-                                                    @foreach ($item->categories as $key => $category)
-                                                        <p
-                                                            class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
-                                                            {{ $category->name }}
-                                                        </p>
-                                                    @endforeach
-                                                </div>
-                                            </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            <div class="flex items-center gap-x-2">
+                                                @foreach ($item->categories as $key => $category)
+                                                    <p
+                                                        class="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
+                                                        {{ $category->name }}
+                                                    </p>
+                                                @endforeach
+                                            </div>
+                                        </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">
                                             <div class="flex items-center gap-x-2">
                                                 @foreach ($item->tags as $key => $tag)
@@ -226,7 +224,7 @@
             $(".delete").on('click', function(e) {
                 e.preventDefault();
                 // Get the ID of the item to delete
-                //var itemId = $(this).data('id');
+                var itemId = $(this).data('id');
                 //console.log(itemId)
                 if (confirm('Are you sure you want to delete this item?')) {
                     $.ajax({

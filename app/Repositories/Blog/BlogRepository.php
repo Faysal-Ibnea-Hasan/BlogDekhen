@@ -14,7 +14,7 @@ class BlogRepository implements BlogRepositoryInterface
 {
     public function myBlog($id)
     {
-        $myBlog = Post::where('user_id', $id)->with('users','categories','tags')->cursorPaginate(5);
+        $myBlog = Post::where('user_id', $id)->with('users', 'categories', 'tags')->orderBy('created_at','DESC')->cursorPaginate(5);
         return $myBlog;
     }
     public function store_blog($blog)
@@ -26,14 +26,15 @@ class BlogRepository implements BlogRepositoryInterface
     public function update_blog($blog)
     {
         $blogs = Post::findOrFail($blog['id']);
-        if($blogs){
+        if ($blogs) {
             $blogs->update($blog);
         }
         return true;
     }
-    public function change_status($id, $status){
+    public function change_status($id, $status)
+    {
         $blogs = Post::findOrFail($id);
-        if($blogs){
+        if ($blogs) {
             $blogs->status = $status;
             $blogs->save();
             return true;
@@ -41,26 +42,46 @@ class BlogRepository implements BlogRepositoryInterface
             return false;
         }
     }
-    public function fetch_user_tags(){
-        $tags = Tag::where('user_id',Auth::user()->id)->where('status',PostStatus::Active)->get();
+    public function fetch_user_tags()
+    {
+        $tags = Tag::where('user_id', Auth::user()->id)->where('status', PostStatus::Active)->get();
         return $tags;
     }
-    public function fetch_user_categories(){
-        $categories = Category::where('user_id',Auth::user()->id)->where('status',PostStatus::Active)->get();
+    public function fetch_user_categories()
+    {
+        $categories = Category::where('user_id', Auth::user()->id)->where('status', PostStatus::Active)->get();
         return $categories;
     }
-    public function store_post_tags($post_id, $tag_id){
+    public function store_post_tags($post_id, $tag_id)
+    {
         PostTag::create([
             'post_id' => $post_id,
             'tag_id' => $tag_id
         ]);
         return true;
     }
-    public function store_category_post($post_id, $category_id){
+    public function store_category_post($post_id, $category_id)
+    {
         CategoryPost::create([
             'post_id' => $post_id,
             'category_id' => $category_id
         ]);
+        return true;
+    }
+    public function update_post_tags($post_id, $tag_id)
+    {
+        $post = PostTag::where('post_id', $post_id)->first();
+        if ($post) {
+            $post->update(['tag_id' => $tag_id]);
+        }
+        return true;
+    }
+    public function update_category_post($post_id, $category_id)
+    {
+        $post = CategoryPost::where('post_id',$post_id)->first();
+        if ($post) {
+            $post->update(['category_id' => $category_id]);
+        }
         return true;
     }
 }

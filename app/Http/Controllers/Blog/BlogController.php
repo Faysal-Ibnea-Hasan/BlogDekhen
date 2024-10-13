@@ -57,14 +57,25 @@ class BlogController extends Controller
     }
     public function edit(Request $request)
     {
-        $post = Post::findOrFail($request->id);
+        $post = Post::where('id', $request->id)->with('users', 'categories', 'tags')->first();
+        //dd($post->tags);
+        $tags = $this->blogRepository->fetch_user_tags();
+        $categories = $this->blogRepository->fetch_user_categories();
         return view('Components.update_blog', [
-            'post' => $post
+            'post' => $post,
+            'tags' => $tags,
+            'categories' => $categories
         ]);
     }
-    public function update(Request $request)
+    public function update(BlogRequest $request)
     {
         $post = $request->all();
+        //dd($post);
+        $post_id = $post['id'];
+        $tag_id = $request->tag_id;
+        $category_id = $request->category_id;
+        $this->blogRepository->update_post_tags($post_id, $tag_id);
+        $this->blogRepository->update_category_post($post_id, $category_id);
         $this->blogRepository->update_blog($post);
         return redirect()->route('myBlog');
     }
