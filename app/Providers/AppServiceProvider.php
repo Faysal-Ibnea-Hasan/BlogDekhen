@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
-
+        //In AppServiceProvider.php
         $this->app->bind(BlogFilter::class, function ($app) {
             return new BlogFilter($app->make(Request::class));
         });
