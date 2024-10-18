@@ -12,12 +12,14 @@ use Auth;
 
 class BlogRepository implements BlogRepositoryInterface
 {
-    public function all_blogs()
+    public function all_blogs($filters)
     {
         $post = Post::where('status', PostStatus::Active)
             ->with('users', 'categories', 'tags')
             ->orderBy('created_at', 'DESC')
+            ->filter($filters)
             ->get();
+
         return $post;
     }
     public function blog_details($id)
@@ -108,6 +110,6 @@ class BlogRepository implements BlogRepositoryInterface
         return true;
     }
     public function filter_blogs($request){
-        
+
     }
 }

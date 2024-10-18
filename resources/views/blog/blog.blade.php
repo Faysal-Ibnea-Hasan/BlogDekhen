@@ -1,44 +1,55 @@
 @extends('Layouts.master')
 @section('content')
     <div class="bg-white">
+        <div class="flex flex-row m-2">
+            <label class="basis-1/4 input input-bordered flex items-center gap-2">
+                <input type="text" data-url="{{ route('blog') }}" id="search" name="search" class="grow"
+                    placeholder="Search anything" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                    class="search h-4 w-4 opacity-70">
+                    <path fill-rule="evenodd"
+                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                        clip-rule="evenodd" />
+                </svg>
+            </label>
+        </div>
         <div class="mx-auto max-w-7xl">
-            <div
+            <div id="results"
                 class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                @foreach ($posts as $key => $post)
-                    <a href="{{ route('blog.details', $post->id) }}">
-                        <article class="h-full overflow-hidden rounded-lg shadow transition hover:shadow-lg">
-                            <img alt=""
-                                src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-                                class="h-56 w-full object-cover" />
-                            <div class="bg-white p-4 sm:p-6">
-                                <div class="flex items-center gap-x-4 text-xs">
-                                    <time datetime="2020-03-16"
-                                        class="text-gray-500">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</time>
-                                    @foreach ($post->categories as $key => $category)
-                                        <div
-                                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                                            {{ $category->name }}</div>
-                                    @endforeach
-                                </div>
-                                <div>
-                                    <h3 class="mt-0.5 text-lg text-gray-900">
-                                        {{ \Illuminate\Support\Str::limit($post->title, 40) }}</h3>
-                                </div>
-                                <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                                    {!! \Illuminate\Support\Str::limit($post->content, 100) !!}
-                                </p>
-                                <div class="text-sm leading-6">
-                                    <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-300">
-                                        {{ $post->users->name }} | Author
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-                @endforeach
+                @include('Partials.posts')
             </div>
         </div>
     </div>
     </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $(function() {
+            $("#search").on("keyup", function() {
+                var keywords = $(this).val();
+                console.log("Searching for: " + keywords);
+
+                if (keywords.trim() !== "") {
+                    $.ajax({
+                        url: $(this).data("url"),
+                        type: "GET",
+                        dataType: "JSON",
+                        data: {
+                            search: keywords,
+                        },
+                        success: function(response) {
+                            // Insert the returned HTML into the results div
+                            $("#results").html(response.html);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error:", status, error);
+                        }
+                    });
+                } else {
+                    $("#results").empty(); // Clear results if the search is empty
+                }
+            });
+        });
+    </script>
 @endsection

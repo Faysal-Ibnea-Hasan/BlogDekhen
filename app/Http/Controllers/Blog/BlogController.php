@@ -23,12 +23,16 @@ class BlogController extends Controller
     public function showBlog(Request $request)
     {
         $filters = new BlogFilter($request);
-        $posts = Post::with('users', 'categories', 'tags')->filter($filters)->get();
-        return response()->json($posts);
-        // $posts = $this->blogRepository->all_blogs();
-        // return view('blog.blog', [
-        //     'posts' => $posts
-        // ]);
+        $posts = $this->blogRepository->all_blogs($filters);
+        if ($request->ajax()) {
+            // Return a partial view that contains only the posts list
+            return response()->json([
+                'html' => view('Partials.posts', compact('posts'))->render()
+            ]);
+        }
+        return view('blog.blog', [
+            'posts' => $posts
+        ]);
     }
     public function details($id)
     {

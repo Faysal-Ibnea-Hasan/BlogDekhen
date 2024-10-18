@@ -2,7 +2,7 @@
 namespace App\Repositories\Blog;
 
 interface BlogRepositoryInterface{
-    public function all_blogs();
+    public function all_blogs($filters);
     public function blog_details($id);
     public function myBlog($id);
     public function store_blog($blog);
