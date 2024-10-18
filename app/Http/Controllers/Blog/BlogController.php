@@ -30,9 +30,7 @@ class BlogController extends Controller
                 'html' => view('Partials.posts', compact('posts'))->render()
             ]);
         }
-        return view('blog.blog', [
-            'posts' => $posts
-        ]);
+        return view('blog.blog', compact('posts'));
     }
     public function details($id)
     {
