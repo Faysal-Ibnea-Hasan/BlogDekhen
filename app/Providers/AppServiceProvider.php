@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Filters\BlogFilter;
 use App\Repositories\Auth\AuthRepository;
 use App\Repositories\Auth\AuthRepositoryInterface;
 use App\Repositories\Blog\BlogRepository;
@@ -11,6 +12,7 @@ use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Tag\TagRepository;
 use App\Repositories\Tag\TagRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+
+        $this->app->bind(BlogFilter::class, function ($app) {
+            return new BlogFilter($app->make(Request::class));
+        });
     }
 
     /**

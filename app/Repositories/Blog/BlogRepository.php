@@ -107,4 +107,7 @@ class BlogRepository implements BlogRepositoryInterface
         }
         return true;
     }
+    public function filter_blogs($request){
+        
+    }
 }

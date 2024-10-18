@@ -14,4 +14,5 @@ interface BlogRepositoryInterface{
     public function store_category_post($post_id, $category_id);
     public function update_post_tags($post_id, $tag_id);
     public function update_category_post($post_id, $category_id);
+    public function filter_blogs($request);
 }

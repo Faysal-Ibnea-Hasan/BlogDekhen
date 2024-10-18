@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,9 @@ class Post extends Model
         'status',
         'image'
     ];
+    public function scopeFilter($query, QueryFilter $filters){
+        return $filters->apply($query);
+    }
     public function comments()
     {
         return $this->belongsToMany(Comment::class);

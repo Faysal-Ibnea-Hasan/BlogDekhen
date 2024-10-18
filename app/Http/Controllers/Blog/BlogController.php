@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Blog;
 
 use App\Enum\PostStatus;
+use App\Filters\BlogFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogRequest;
 use App\Models\Category;
@@ -19,12 +20,15 @@ class BlogController extends Controller
     {
         $this->blogRepository = $blogRepository;
     }
-    public function showBlog()
+    public function showBlog(Request $request)
     {
-        $posts = $this->blogRepository->all_blogs();
-        return view('blog.blog', [
-            'posts' => $posts
-        ]);
+        $filters = new BlogFilter($request);
+        $posts = Post::with('users', 'categories', 'tags')->filter($filters)->get();
+        return response()->json($posts);
+        // $posts = $this->blogRepository->all_blogs();
+        // return view('blog.blog', [
+        //     'posts' => $posts
+        // ]);
     }
     public function details($id)
     {

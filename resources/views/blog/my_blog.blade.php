@@ -137,7 +137,6 @@
                                         </td>
                                         <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                             {!! \Illuminate\Support\Str::limit($item->content, 45) !!}</td>
-
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">
                                             <div class="flex items-center gap-x-2">
                                                 @foreach ($item->categories as $key => $category)
