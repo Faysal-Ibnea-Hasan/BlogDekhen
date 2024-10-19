@@ -18,7 +18,7 @@ class BlogRepository implements BlogRepositoryInterface
             ->with('users', 'categories', 'tags')
             ->orderBy('created_at', 'DESC')
             ->filter($filters)
-            ->get();
+            ->paginate(3);
 
         return $post;
     }
@@ -76,6 +76,14 @@ class BlogRepository implements BlogRepositoryInterface
             ->where('status', PostStatus::Active)
             ->get();
         return $categories;
+    }
+    public function fetch_all_categories(){
+        $categories = Category::where('status',PostStatus::Active)->get();
+        return $categories;
+    }
+    public function fetch_all_tags(){
+        $tags = Tag::where('status',PostStatus::Active)->get();
+        return $tags;
     }
     public function store_post_tags($post_id, $tag_id)
     {

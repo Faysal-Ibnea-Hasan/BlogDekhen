@@ -26,7 +26,15 @@
                         {{ $post->users->name }} | Author
                     </p>
                 </div>
+                <div class="text-sm leading-6">
+                    @foreach ($post->tags as $key => $tag)
+                    <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-300">
+                        Tags: {{ $tag->name }}
+                    </p>
+                    @endforeach
+                </div>
             </div>
         </article>
     </a>
 @endforeach
+

@@ -19,9 +19,9 @@
     </div>
 
     <!-- Footer (Visible only if authenticated) -->
-    @if (Auth::user())
-        @include('partials.footer')
-    @endif
+    {{-- @if (Auth::user())
+    @endif --}}
+    @include('partials.footer')
     @yield('scripts')
 </body>
 

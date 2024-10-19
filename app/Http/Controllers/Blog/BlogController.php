@@ -24,13 +24,17 @@ class BlogController extends Controller
     {
         $filters = new BlogFilter($request);
         $posts = $this->blogRepository->all_blogs($filters);
+        //return $posts;
+        $categories = $this->blogRepository->fetch_all_categories();
+        $tags = $this->blogRepository->fetch_all_tags();
         if ($request->ajax()) {
             // Return a partial view that contains only the posts list
             return response()->json([
-                'html' => view('Partials.posts', compact('posts'))->render()
+                'html' => view('Partials.posts', compact('posts'))->render(),
+                'next_page_url' => $posts->nextPageUrl(),
             ]);
         }
-        return view('blog.blog', compact('posts'));
+        return view('blog.blog', compact('posts','categories','tags'));
     }
     public function details($id)
     {

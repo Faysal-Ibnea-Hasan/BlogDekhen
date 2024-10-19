@@ -1,7 +1,7 @@
 @extends('Layouts.master')
 @section('content')
     <div class="bg-white">
-        <div class="flex flex-row m-2">
+        <div class="flex flex-row m-2 gap-x-8 justify-center">
             <label class="basis-1/4 input input-bordered flex items-center gap-2">
                 <input type="text" data-url="{{ route('blog') }}" id="search" name="search" class="grow"
                     placeholder="Search anything" />
@@ -12,10 +12,22 @@
                         clip-rule="evenodd" />
                 </svg>
             </label>
+            <select id="category" class="select select-bordered w-full max-w-xs">
+                <option disabled selected>Sort By Category</option>
+                @foreach ($categories as $key => $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            <select id="tag" class="select select-bordered w-full max-w-xs">
+                <option disabled selected>Sort By Tag</option>
+                @foreach ($tags as $key => $tag)
+                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="mx-auto max-w-7xl">
             <div id="results"
-                class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                class="m-10 mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                 @include('Partials.posts')
             </div>
         </div>
@@ -24,32 +36,6 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
-        $(function() {
-            $("#search").on("keyup", function() {
-                var keywords = $(this).val();
-                console.log("Searching for: " + keywords);
-
-                if (keywords.trim() !== "") {
-                    $.ajax({
-                        url: $(this).data("url"),
-                        type: "GET",
-                        dataType: "JSON",
-                        data: {
-                            search: keywords,
-                        },
-                        success: function(response) {
-                            // Insert the returned HTML into the results div
-                            $("#results").html(response.html);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("AJAX Error:", status, error);
-                        }
-                    });
-                } else {
-                    $("#results").empty(); // Clear results if the search is empty
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/blog/custom.js') }}"></script>
+    <script src="{{ asset('js/blog/infiniteScroll.js') }}"></script>
 @endsection

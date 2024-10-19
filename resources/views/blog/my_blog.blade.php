@@ -265,7 +265,7 @@
         });
         $("#tag").on('click', function(e) {
             e.preventDefault();
-            var name = $('#name').val();
+            var name = $('#tag_name').val();
             var user_id = $('#user_id').val();
             //console.log(name);
             $.ajax({
@@ -304,7 +304,7 @@
         });
         $("#category").on('click', function(e) {
             e.preventDefault();
-            var name = $('#name').val();
+            var name = $('#category_name').val();
             var user_id = $('#user_id').val();
             //console.log(name);
             $.ajax({

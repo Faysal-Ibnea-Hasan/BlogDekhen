@@ -10,6 +10,8 @@ interface BlogRepositoryInterface{
     public function change_status($id, $status);
     public function fetch_user_tags();
     public function fetch_user_categories();
+    public function fetch_all_categories();
+    public function fetch_all_tags();
     public function store_post_tags($post_id, $tag_id);
     public function store_category_post($post_id, $category_id);
     public function update_post_tags($post_id, $tag_id);
